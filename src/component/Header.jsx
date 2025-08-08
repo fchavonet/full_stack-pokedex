@@ -1,14 +1,13 @@
 import { pokemonRegions } from "../data/pokemonRegions.js";
 import SearchBar from "./SearchBar";
 
-function Header({ allPokemon, onDisplayedPokemonChange, onLoadingChange, searchTerm, onSearchTermChange, loading, onReset }) {
-
+function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onLoadingChange, onSearchTermChange, onPokemonSelect, onReset }) {
   // Filter Pokemon by selected region with loading delay.
   async function handleRegionClick(regionId) {
     onLoadingChange(true);
     onSearchTermChange("");
 
-    const region = pokemonRegions.find(r => r.id === regionId);
+    const region = pokemonRegions.find(region => region.id === regionId);
     const filtered = allPokemon.filter(pokemon => pokemon.pokedex_id >= region.range[0] && pokemon.pokedex_id <= region.range[1]);
 
     setTimeout(() => {
@@ -20,8 +19,8 @@ function Header({ allPokemon, onDisplayedPokemonChange, onLoadingChange, searchT
   return (
     <header>
       <div>
-        <h1 
-          onClick={onReset} 
+        <h1
+          onClick={onReset}
           className="cursor-pointer hover:underline"
           style={{ cursor: "pointer" }}
         >
@@ -29,7 +28,7 @@ function Header({ allPokemon, onDisplayedPokemonChange, onLoadingChange, searchT
         </h1>
       </div>
 
-      <nav>
+      <nav className="mt-4">
         <ul>
           {pokemonRegions.map(region => (
             <li key={region.id}>
@@ -46,10 +45,11 @@ function Header({ allPokemon, onDisplayedPokemonChange, onLoadingChange, searchT
 
       <SearchBar
         allPokemon={allPokemon}
-        onDisplayedPokemonChange={onDisplayedPokemonChange}
         searchTerm={searchTerm}
-        onSearchTermChange={onSearchTermChange}
         loading={loading}
+        onDisplayedPokemonChange={onDisplayedPokemonChange}
+        onSearchTermChange={onSearchTermChange}
+        onPokemonSelect={onPokemonSelect}
       />
     </header>
   );

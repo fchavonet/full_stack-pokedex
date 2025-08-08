@@ -1,7 +1,8 @@
-function Sidebar({ pokemonList, loading, searchTerm }) {
-  
+function Sidebar({ pokemonList, loading, searchTerm, onPokemonSelect }) {
+
+  // Handle Pokemon selection when clicked.
   function handlePokemonClick(pokemon) {
-    console.log(`${pokemon.pokedex_id} - ${pokemon.name.fr} - details`);
+    onPokemonSelect(pokemon);
   }
 
   // Display appropriate content based on loading state and Pokemon list.
@@ -20,13 +21,13 @@ function Sidebar({ pokemonList, loading, searchTerm }) {
     const pokemonCount = pokemonList.length;
 
     return (
-      <>
+      <div>
         <p>{pokemonCount} Pokémon</p>
 
         <ul>
           {pokemonList.map(pokemon => (
             <li key={pokemon.pokedex_id}>
-              <button 
+              <button
                 className="cursor-pointer hover:underline"
                 onClick={() => handlePokemonClick(pokemon)}
               >
@@ -35,12 +36,12 @@ function Sidebar({ pokemonList, loading, searchTerm }) {
             </li>
           ))}
         </ul>
-      </>
+      </div>
     );
-  };
+  }
 
   return (
-    <aside>
+    <aside className="mt-4">
       {renderContent()}
     </aside>
   );

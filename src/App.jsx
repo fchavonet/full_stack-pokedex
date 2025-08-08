@@ -7,10 +7,12 @@ import PokemonDetails from "./component/PokemonDetails";
 import Footer from "./component/Footer";
 
 function App() {
-  const [allPokemon, setAllPokemon] = useState([]);
-  const [displayedPokemon, setDisplayedPokemon] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+const [allPokemon, setAllPokemon] = useState([]);
+const [displayedPokemon, setDisplayedPokemon] = useState([]);
+const [selectedPokemon, setSelectedPokemon] = useState(null);
+const [searchTerm, setSearchTerm] = useState("");
+const [loading, setLoading] = useState(false);
+
 
   // Load all Pokemon data on component mount and set Pikachu as default.
   useEffect(() => {
@@ -22,6 +24,10 @@ function App() {
         const pikachu = data.filter(pokemon => pokemon.pokedex_id === 25);
 
         setDisplayedPokemon(pikachu);
+
+        if (pikachu.length > 0) {
+          setSelectedPokemon(pikachu[0]);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -29,11 +35,15 @@ function App() {
     loadAllPokemon();
   }, []);
 
-
   // Reset display to show only Pikachu and clear search.
   function handleReset() {
     const pikachu = allPokemon.filter(pokemon => pokemon.pokedex_id === 25);
     setDisplayedPokemon(pikachu);
+
+    if (pikachu.length > 0) {
+      setSelectedPokemon(pikachu[0]);
+    }
+
     setSearchTerm("");
     setLoading(false);
   }
@@ -42,11 +52,12 @@ function App() {
     <>
       <Header
         allPokemon={allPokemon}
+        searchTerm={searchTerm}
+        loading={loading}
         onDisplayedPokemonChange={setDisplayedPokemon}
         onLoadingChange={setLoading}
-        searchTerm={searchTerm}
         onSearchTermChange={setSearchTerm}
-        loading={loading}
+        onPokemonSelect={setSelectedPokemon}
         onReset={handleReset}
       />
 
@@ -55,9 +66,14 @@ function App() {
           pokemonList={displayedPokemon}
           loading={loading}
           searchTerm={searchTerm}
+          selectedPokemon={selectedPokemon}
+          onPokemonSelect={setSelectedPokemon}
         />
 
-        <PokemonDetails />
+        <PokemonDetails
+          pokemon={selectedPokemon}
+          allPokemon={allPokemon}
+        />
       </main>
 
       <Footer />
