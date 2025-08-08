@@ -1,3 +1,5 @@
+import { getPokemonStaticImage, getPokemonAnimatedImage, handleImageError, handleAnimatedImageError } from "../services/pokemonImages.js";
+
 function PokemonDetails({ pokemon, allPokemon }) {
   if (!pokemon) {
     return (
@@ -35,7 +37,7 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
   // Build complete evolution chain from first to last evolution.
   function getEvolutionChain(pokemon, allPokemon) {
-    if (!pokemon.evolution || !allPokemon) return [pokemon.name.fr];
+    if (!pokemon.evolution || !allPokemon) return [{ name: pokemon.name.fr, id: pokemon.pokedex_id }];
 
     let currentPokemon = pokemon;
     const visited = new Set();
@@ -49,7 +51,7 @@ function PokemonDetails({ pokemon, allPokemon }) {
       currentPokemon = prePokemon;
     }
 
-    const evolutionChain = [currentPokemon.name.fr];
+    const evolutionChain = [{ name: currentPokemon.name.fr, id: currentPokemon.pokedex_id }];
     visited.clear();
 
     // Build chain by following next evolutions.
@@ -63,7 +65,7 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
       if (!nextPokemon) break;
 
-      evolutionChain.push(nextPokemon.name.fr);
+      evolutionChain.push({ name: nextPokemon.name.fr, id: nextPokemon.pokedex_id });
       currentPokemon = nextPokemon;
     }
 
@@ -95,10 +97,21 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
   return (
     <section>
-      <div className="mt-4">
-        <h2>#{pokemon.pokedex_id.toString().padStart(3, "0")}</h2>
-        <p>{pokemon.name.fr}</p>
-        <p>{pokemonName}</p>
+      <div>
+        <img
+          className="pixelated"
+          width="100"
+          height="100"
+          src={getPokemonAnimatedImage(pokemon.pokedex_id)}
+          alt={pokemon.name.fr}
+          onError={(error) => handleAnimatedImageError(error, pokemon.pokedex_id)}
+        />
+
+        <div>
+          <h2>#{pokemon.pokedex_id.toString().padStart(3, "0")}</h2>
+          <p>{pokemon.name.fr}</p>
+          <p>{pokemonName}</p>
+        </div>
       </div>
 
       <div className="mt-4">
@@ -130,7 +143,25 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
       <div className="mt-4">
         <h3>Évolutions</h3>
-        <p>{evolutionChain.join(" → ")}</p>
+
+        <div className="flex">
+          {evolutionChain.map((evolution) => (
+            <div key={evolution.id}>
+              <div className="flex flex-col justify-center items-center">
+                <img
+                  className="pixelated"
+                  width="80"
+                  height="80"
+                  src={getPokemonStaticImage(evolution.id)}
+                  alt={evolution.name}
+                  onError={handleImageError}
+                />
+
+                <p>{evolution.name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
