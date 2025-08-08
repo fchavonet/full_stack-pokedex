@@ -52,21 +52,35 @@ function PokemonDetails({ pokemon, allPokemon }) {
     }
 
     const evolutionChain = [{ name: currentPokemon.name.fr, id: currentPokemon.pokedex_id }];
-    visited.clear();
 
-    // Build chain by following next evolutions.
-    while (currentPokemon.evolution?.next && !visited.has(currentPokemon.pokedex_id)) {
-      visited.add(currentPokemon.pokedex_id);
-      const nextEvolution = currentPokemon.evolution.next[0];
+    // Handle multiple evolutions by adding all next evolutions at once.
+    if (currentPokemon.evolution?.next) {
+      currentPokemon.evolution.next.forEach(nextEvolution => {
+        if (nextEvolution) {
+          const nextPokemon = allPokemon.find(p => p.pokedex_id === nextEvolution.pokedex_id);
 
-      if (!nextEvolution) break;
+          if (nextPokemon) {
+            evolutionChain.push({ name: nextPokemon.name.fr, id: nextPokemon.pokedex_id });
+          }
+        }
+      });
+    } else {
+      visited.clear();
 
-      const nextPokemon = allPokemon.find(p => p.pokedex_id === nextEvolution.pokedex_id);
+      // Build chain by following next evolutions.
+      while (currentPokemon.evolution?.next && !visited.has(currentPokemon.pokedex_id)) {
+        visited.add(currentPokemon.pokedex_id);
+        const nextEvolution = currentPokemon.evolution.next[0];
 
-      if (!nextPokemon) break;
+        if (!nextEvolution) break;
 
-      evolutionChain.push({ name: nextPokemon.name.fr, id: nextPokemon.pokedex_id });
-      currentPokemon = nextPokemon;
+        const nextPokemon = allPokemon.find(p => p.pokedex_id === nextEvolution.pokedex_id);
+
+        if (!nextPokemon) break;
+
+        evolutionChain.push({ name: nextPokemon.name.fr, id: nextPokemon.pokedex_id });
+        currentPokemon = nextPokemon;
+      }
     }
 
     return evolutionChain;
