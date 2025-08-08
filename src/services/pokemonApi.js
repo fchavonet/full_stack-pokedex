@@ -14,7 +14,7 @@ const headers = {
 
 // Simple in-memory cache with TTL (Time To Live).
 const cache = new Map();
-const CACHE_TTL = 60 * 60 * 1000; // 60 minutes in milliseconds
+const CACHE_TTL = 60 * 60 * 1000; // 60 minutes in milliseconds.
 
 // Helper function to get cached data if still valid.
 function getCachedData(key) {

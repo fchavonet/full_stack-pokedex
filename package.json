@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "fix": "eslint . --fix",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest --reporter=verbose",
     "build": "vite build",
     "deploy": "gh-pages -d dist"
   },
