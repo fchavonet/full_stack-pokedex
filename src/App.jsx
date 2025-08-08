@@ -1,10 +1,10 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { pokemonApi } from "./services/pokemonApi.js";
-import Header from "./component/Header";
-import Sidebar from "./component/Sidebar";
-import PokemonDetails from "./component/PokemonDetails";
-import Footer from "./component/Footer";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import PokemonDetails from "./components/PokemonDetails";
+import Footer from "./components/Footer";
 
 function App() {
 const [allPokemon, setAllPokemon] = useState([]);
