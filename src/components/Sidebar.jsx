@@ -1,6 +1,6 @@
 import PokemonList from "./PokemonList";
 
-function Sidebar({ pokemonList, loading, searchTerm, onPokemonSelect }) {
+function Sidebar({ pokemonList, loading, searchTerm, onPokemonSelect, selectedPokemon }) {
   return (
     <aside className="mt-4">
       <PokemonList 
@@ -8,6 +8,7 @@ function Sidebar({ pokemonList, loading, searchTerm, onPokemonSelect }) {
         loading={loading}
         searchTerm={searchTerm}
         onPokemonSelect={onPokemonSelect}
+        selectedPokemon={selectedPokemon}
       />
     </aside>
   );

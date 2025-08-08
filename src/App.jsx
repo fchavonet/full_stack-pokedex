@@ -7,12 +7,12 @@ import PokemonDetails from "./components/PokemonDetails";
 import Footer from "./components/Footer";
 
 function App() {
-const [allPokemon, setAllPokemon] = useState([]);
-const [displayedPokemon, setDisplayedPokemon] = useState([]);
-const [selectedPokemon, setSelectedPokemon] = useState(null);
-const [searchTerm, setSearchTerm] = useState("");
-const [loading, setLoading] = useState(false);
-
+  const [allPokemon, setAllPokemon] = useState([]);
+  const [displayedPokemon, setDisplayedPokemon] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Load all Pokemon data on component mount and set Pikachu as default.
   useEffect(() => {
@@ -45,6 +45,7 @@ const [loading, setLoading] = useState(false);
     }
 
     setSearchTerm("");
+    setSelectedRegion(null);
     setLoading(false);
   }
 
@@ -54,9 +55,11 @@ const [loading, setLoading] = useState(false);
         allPokemon={allPokemon}
         searchTerm={searchTerm}
         loading={loading}
+        selectedRegion={selectedRegion}
         onDisplayedPokemonChange={setDisplayedPokemon}
         onLoadingChange={setLoading}
         onSearchTermChange={setSearchTerm}
+        onRegionSelect={setSelectedRegion}
         onPokemonSelect={setSelectedPokemon}
         onReset={handleReset}
       />
