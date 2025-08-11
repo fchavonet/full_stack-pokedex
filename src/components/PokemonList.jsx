@@ -14,18 +14,20 @@ function PokemonList({ pokemonList, loading, searchTerm, onPokemonSelect, select
 
   return (
     <div>
-      <p>{pokemonList.length} Pokémon</p>
-      
-      <ul>
+      <p className="p-4 hidden lg:flex flex-row justify-center items-center bg-zinc-200">{pokemonList.length} Pokémon</p>
+
+      <ul className="p-4 flex flex-row lg:flex-col gap-4 overflow-auto">
         {pokemonList.map(pokemon => {
-          let buttonClass = "flex flex-row justify-center items-center cursor-pointer hover:underline";
-          
+          let buttonClass = "w-full flex flex-row justify-center items-center border cursor-pointer hover:underline";
+
           if (selectedPokemon && selectedPokemon.pokedex_id === pokemon.pokedex_id) {
             buttonClass += " font-bold";
           }
 
           return (
-            <li key={pokemon.pokedex_id}>
+            <li
+              className="w-full flex-shrink-0"
+              key={pokemon.pokedex_id}>
               <button
                 className={buttonClass}
                 onClick={() => onPokemonSelect(pokemon)}

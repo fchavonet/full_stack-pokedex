@@ -50,7 +50,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="lg:h-screen flex flex-col overflow-hidden">
       <Header
         allPokemon={allPokemon}
         searchTerm={searchTerm}
@@ -64,7 +64,7 @@ function App() {
         onReset={handleReset}
       />
 
-      <main>
+      <main className="lg:h-0 flex flex-col lg:flex-row lg:flex-1 overflow-hidden">
         <Sidebar
           pokemonList={displayedPokemon}
           loading={loading}
@@ -80,7 +80,7 @@ function App() {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

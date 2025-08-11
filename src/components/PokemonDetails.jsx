@@ -110,7 +110,7 @@ function PokemonDetails({ pokemon, allPokemon }) {
   const evolutionChain = getEvolutionChain(pokemon, allPokemon);
 
   return (
-    <section>
+    <section className="w-full flex-1 overflow-auto">
       <div>
         <img
           className="pixelated"

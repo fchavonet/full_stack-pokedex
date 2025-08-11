@@ -2,7 +2,7 @@ import PokemonList from "./PokemonList";
 
 function Sidebar({ pokemonList, loading, searchTerm, onPokemonSelect, selectedPokemon }) {
   return (
-    <aside className="mt-4">
+    <aside className="w-full lg:w-xs border-b border-r-0 lg:border-b-0 lg:border-r overflow-auto">
       <PokemonList 
         pokemonList={pokemonList}
         loading={loading}

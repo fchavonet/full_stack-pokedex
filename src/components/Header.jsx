@@ -24,8 +24,8 @@ function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onL
   }
 
   return (
-    <header className="relative w-full h-full flex flex-col md:flex-row justify-between items-center border-b">
-      <div className="w-full md:w-100 h-full p-4 flex flex-row justify-center items-center">
+    <header className="relative w-full flex flex-col lg:flex-row justify-between items-center border-b">
+      <div className="w-full lg:w-xs h-full pt-4 lg:p-4 flex flex-row flex-shrink-0 justify-center items-center">
         <h1
           onClick={onReset}
           className="cursor-pointer hover:underline"
@@ -34,16 +34,16 @@ function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onL
         </h1>
 
         <button
-          className="absolute right-4 md:hidden"
+          className="absolute right-4 lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
 
-      <nav className="w-full md:h-full md:block ">
-        <div className={`w-full ${isMenuOpen ? "h-90" : "h-0"} md:h-full md:p-4 overflow-hidden transition-all duration-300 ease-in-out`}>
-          <ul className="w-full h-full flex flex-col md:flex-row justify-center items-center gap-4 ">
+      <nav className="w-full lg:h-full lg:block ">
+        <div className={`w-full ${isMenuOpen ? "h-90" : "h-0"} lg:h-full lg:p-4 overflow-hidden transition-all duration-300 ease-in-out`}>
+          <ul className="w-full h-full flex flex-col lg:flex-row pt-4 lg:pt-0 justify-center items-center gap-4">
             {pokemonRegions.map(region => (
               <li key={region.id}>
                 <button
