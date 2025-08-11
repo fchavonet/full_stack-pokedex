@@ -26,7 +26,7 @@ function PokemonList({ pokemonList, loading, searchTerm, onPokemonSelect, select
 
           return (
             <li
-              className="w-full flex-shrink-0"
+              className="w-full flex-shrink-0 snap-center lg:snap-align-none"
               key={pokemon.pokedex_id}>
               <button
                 className={buttonClass}
