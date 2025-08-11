@@ -1,7 +1,11 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { pokemonRegions } from "../data/pokemonRegions.js";
 import SearchBar from "./SearchBar";
 
 function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onLoadingChange, onSearchTermChange, onPokemonSelect, onReset, selectedRegion, onRegionSelect }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   // Filter Pokemon by selected region with loading delay.
   async function handleRegionClick(regionId) {
     onLoadingChange(true);
@@ -10,7 +14,7 @@ function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onL
     const region = pokemonRegions.find(region => region.id === regionId);
     const filtered = allPokemon.filter(pokemon => pokemon.pokedex_id >= region.range[0] && pokemon.pokedex_id <= region.range[1]);
 
-    // Mettre à jour la région sélectionnée
+    setIsMenuOpen(false);
     onRegionSelect(region);
 
     setTimeout(() => {
@@ -20,38 +24,38 @@ function Header({ allPokemon, searchTerm, loading, onDisplayedPokemonChange, onL
   }
 
   return (
-    <header>
-      <div>
+    <header className="relative w-full h-full flex flex-col md:flex-row justify-between items-center border-b">
+      <div className="w-full md:w-100 h-full p-4 flex flex-row justify-center items-center">
         <h1
           onClick={onReset}
           className="cursor-pointer hover:underline"
-          style={{ cursor: "pointer" }}
         >
           Pokédex
         </h1>
+
+        <button
+          className="absolute right-4 md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X /> : <Menu />}
+        </button>
       </div>
 
-      <nav className="mt-4">
-        <ul>
-          {pokemonRegions.map(region => {
-            let buttonClass = "cursor-pointer hover:underline";
-            
-            if (selectedRegion && selectedRegion.id === region.id) {
-              buttonClass += " font-bold";
-            }
-
-            return (
+      <nav className="w-full md:h-full md:block ">
+        <div className={`w-full ${isMenuOpen ? "h-90" : "h-0"} md:h-full md:p-4 overflow-hidden transition-all duration-300 ease-in-out`}>
+          <ul className="w-full h-full flex flex-col md:flex-row justify-center items-center gap-4 ">
+            {pokemonRegions.map(region => (
               <li key={region.id}>
                 <button
-                  className={buttonClass}
+                  className={`cursor-pointer hover:underline ${selectedRegion?.id === region.id && "font-bold"}`}
                   onClick={() => handleRegionClick(region.id)}
                 >
                   {region.name}
                 </button>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </div>
       </nav>
 
       <SearchBar

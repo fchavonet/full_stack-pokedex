@@ -1,3 +1,5 @@
+import { Search } from "lucide-react";
+
 function SearchBar({ allPokemon, onDisplayedPokemonChange, searchTerm, onSearchTermChange, loading, onPokemonSelect }) {
   // Remove accents and normalize text for better search matching.
   function normalizeString(str) {
@@ -31,9 +33,9 @@ function SearchBar({ allPokemon, onDisplayedPokemonChange, searchTerm, onSearchT
   }
 
   return (
-    <div className="mt-4">
+    <div className="w-full md:w-100 h-full p-4 flex flex-row justify-center itemsècenter gap-2">
       <input
-        className="mr-2 border"
+        className="w-full px-2 py-1 border"
         type="text"
         placeholder="Rechercher un Pokémon..."
         value={searchTerm}
@@ -43,10 +45,10 @@ function SearchBar({ allPokemon, onDisplayedPokemonChange, searchTerm, onSearchT
       />
 
       <button
-        className="border cursor-pointer"
+        className="cursor-pointer"
         onClick={handleSearch}
         disabled={loading || !searchTerm.trim()}>
-        Rechercher
+        <Search />
       </button>
     </div>
   );
