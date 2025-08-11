@@ -16,7 +16,7 @@ function PokemonList({ pokemonList, loading, searchTerm, onPokemonSelect, select
     <div>
       <p className="p-4 hidden lg:flex flex-row justify-center items-center bg-zinc-200">{pokemonList.length} Pokémon</p>
 
-      <ul className="p-4 flex flex-row lg:flex-col gap-4 overflow-auto">
+      <ul className="p-4 flex flex-row lg:flex-col gap-4 overflow-auto snap-x snap-mandatory lg:snap-none">
         {pokemonList.map(pokemon => {
           let buttonClass = "w-full flex flex-row justify-center items-center border cursor-pointer hover:underline";
 
