@@ -35,7 +35,7 @@ function SearchBar({ allPokemon, onDisplayedPokemonChange, searchTerm, onSearchT
   return (
     <div className="w-full lg:w-xs h-full p-4 lg:p-0 lg:px-4 flex flex-row flex-shrink-0 justify-center items-center gap-4">
       <input
-        className="w-full px-2 py-1 border"
+        className="w-full px-2 py-1 border border-slate-50/30 rounded-sm outline-none"
         type="text"
         placeholder="Rechercher un Pokémon..."
         value={searchTerm}
