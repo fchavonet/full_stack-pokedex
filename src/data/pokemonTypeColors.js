@@ -1,0 +1,20 @@
+export const pokemonTypeColors = {
+  Acier: "bg-gray-400",
+  Combat: "bg-red-700",
+  Dragon: "bg-indigo-700",
+  Eau: "bg-blue-500",
+  Électrik: "bg-yellow-400",
+  Fée: "bg-pink-300",
+  Feu: "bg-red-500",
+  Glace: "bg-blue-200",
+  Insecte: "bg-green-400",
+  Normal: "bg-gray-400",
+  Plante: "bg-green-500",
+  Poison: "bg-purple-500",
+  Psy: "bg-purple-400",
+  Roche: "bg-yellow-600",
+  Sol: "bg-yellow-700",
+  Spectre: "bg-purple-700",
+  Ténèbres: "bg-gray-800",
+  Vol: "bg-blue-300"
+};

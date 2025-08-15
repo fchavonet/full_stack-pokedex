@@ -1,4 +1,6 @@
+import { ArrowBigRight, ArrowBigDown } from "lucide-react";
 import { getPokemonStaticImage, getPokemonAnimatedImage, handleImageError, handleAnimatedImageError } from "../services/pokemonImages.js";
+import { pokemonTypeColors } from "../data/pokemonTypeColors.js";
 
 function PokemonDetails({ pokemon, allPokemon }) {
   if (!pokemon) {
@@ -27,10 +29,12 @@ function PokemonDetails({ pokemon, allPokemon }) {
     if (!talents?.length) return "Aucun";
 
     return talents.map((talent, index) => (
-      <span key={index}>
+      <span
+        className={`mr-2 mb-2 px-4 py-2 inline-block text-sm rounded-full ${talent.tc ? "text-yellow-600 bg-yellow-200 border-2 border-yellow-300" : "text-slate-600 bg-slate-200 border-2 border-slate-300"}`}
+        key={index}>
         {talent.name}
-        {talent.tc && " (Talent Caché)"}
-        {index < talents.length - 1 && ", "}
+        {talent.tc && " (Talent caché)"}
+        {index < talents.length - 1}
       </span>
     ));
   }
@@ -92,55 +96,96 @@ function PokemonDetails({ pokemon, allPokemon }) {
     return suffix ? `${value}${suffix}` : value;
   }
 
-  function getTypes(types) {
-    if (!types?.length) return "Non disponible";
-    return types.map(type => type.name).join(", ");
-  }
-
   function getStatValue(stat) {
     return stat || "Non disponible";
   }
 
   // Prepare data with fallback values for display.
   const pokemonName = getSafeValue(pokemon.name?.jp);
-  const types = getTypes(pokemon.types);
-  const height = getSafeValue(pokemon.height, " m");
-  const weight = getSafeValue(pokemon.weight, " kg");
+  const height = getSafeValue(pokemon.height);
+  const weight = getSafeValue(pokemon.weight);
   const catchRate = getSafeValue(pokemon.catch_rate);
   const evolutionChain = getEvolutionChain(pokemon, allPokemon);
 
   return (
-    <section className="w-full flex-1 overflow-auto">
-      <div>
+    <section className="w-full p-4 lg:p-8 flex-1 bg-slate-100 overflow-auto no-scrollbar">
+      {/* Main Pokemon card with sprite and basic info */}
+      <div className="w-full mb-4 px-8 py-4 flex flex-row justify-start items-center gap-8 border border-slate-300 rounded-xl bg-white shadow-lg">
         <img
-          className="pixelated"
-          width="100"
-          height="100"
+          className="w-25 h-25 object-contain object-center pixelated transform scale-x-[-1]"
           src={getPokemonAnimatedImage(pokemon.pokedex_id)}
           alt={pokemon.name.fr}
           onError={(error) => handleAnimatedImageError(error, pokemon.pokedex_id)}
         />
 
         <div>
-          <h2>#{pokemon.pokedex_id.toString().padStart(3, "0")}</h2>
-          <p>{pokemon.name.fr}</p>
-          <p>{pokemonName}</p>
+          <p className="text-2xl font-bold text-slate-800">{pokemon.name.fr}</p>
+          <p className="mb-4 text-lg text-slate-600">{pokemonName}</p>
+
+          <div className="mb-2 flex flex-wrap gap-2">
+            {pokemon.types?.map((type, index) => (
+              <span
+                className={`px-2 py-1 text-xs text-center font-medium text-white rounded-full ${pokemonTypeColors[type.name] || "bg-slate-400"} cursor-pointer`}
+                key={index}
+              >
+                {type.name}
+              </span>
+            ))}
+          </div>
+
+          <p className="px-2 py-1 inline-block text-xs text-center font-bold text-slate-600 rounded-full bg-slate-200">Génération : {pokemon.generation}</p>
         </div>
       </div>
 
-      <div className="mt-4">
-        <p>Génération : {pokemon.generation}</p>
-        <p>Catégorie : {pokemon.category}</p>
-        <p>Type(s) : {types}</p>
-        <p>Taille : {height}</p>
-        <p>Poids : {weight}</p>
-        <p>Sexe : {formatGender(pokemon.sexe)}</p>
-        <p>Taux de capture : {catchRate}</p>
+      {/* General Pokemon details and abilities */}
+      <div className="mb-4 grid md:grid-cols-2 gap-4">
+        <div className="px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+          <h3 className="text-xl font-bold text-slate-600">
+            Informations générales
+          </h3>
+
+          <div className="w-full py-2 flex justify-between items-center border-b border-slate-200">
+            <span className="font-medium text-slate-600">Catégorie :</span>
+            <span>{pokemon.category}</span>
+          </div>
+
+          <div className="w-full py-2 flex justify-between items-center border-b border-slate-200">
+            <span className="font-medium text-slate-600">Taille :</span>
+            <span>{height}</span>
+          </div>
+
+          <div className="w-full py-2 flex justify-between items-center border-b border-slate-200">
+            <span className="font-medium text-slate-600">Poids :</span>
+            <span>{weight}</span>
+          </div>
+
+          <div className="w-full py-2 flex justify-between items-center border-b border-slate-200">
+            <span className="font-medium text-slate-600">Sexe :</span>
+            <span>{formatGender(pokemon.sexe)}</span>
+          </div>
+
+          <div className="w-full py-2 flex justify-between items-center border-b border-slate-200">
+            <span className="font-medium text-slate-600">Taux de capture :</span>
+            <span>{catchRate}</span>
+          </div>
+        </div>
+
+        <div className="p-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+          <h3 className="text-xl font-bold text-slate-600">
+            Talents
+          </h3>
+
+          <p>{formatTalents(pokemon.talents)}</p>
+        </div>
       </div>
 
+      {/* Pokemon stats */}
       {pokemon.stats && (
-        <div className="mt-4">
-          <h3>Statistiques (Niveau 100)</h3>
+        <div className="w-full mb-4 px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+          <h3 className="text-xl font-bold text-slate-600">
+            Statistiques (Niveau 100)
+          </h3>
+
           <p>PV : {getStatValue(pokemon.stats.hp)}</p>
           <p>Attaque : {getStatValue(pokemon.stats.atk)}</p>
           <p>Défense : {getStatValue(pokemon.stats.def)}</p>
@@ -150,22 +195,20 @@ function PokemonDetails({ pokemon, allPokemon }) {
         </div>
       )}
 
-      <div className="mt-4">
-        <h3>Talents</h3>
-        <p>{formatTalents(pokemon.talents)}</p>
-      </div>
+      {/* Evolution chain */}
+      <div className="w-full px-8 py-4 flex flex-col justify-start items-start border border-slate-300 rounded-xl bg-white shadow-lg">
+        <h3 className="text-xl font-bold text-slate-600">
+          Évolutions
+        </h3>
 
-      <div className="mt-4">
-        <h3>Évolutions</h3>
-
-        <div className="flex">
-          {evolutionChain.map((evolution) => (
-            <div key={evolution.id}>
-              <div className="flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col lg:flex-row justify-center items-center">
+          {evolutionChain.map((evolution, index) => (
+            <div
+              className="flex flex-col lg:flex-row justify-center items-center"
+              key={`${evolution.id}-${index}`}>
+              <div className="px-4 py-2 flex flex-col justify-center items-center gap-2 rounded-xl bg-slate-200">
                 <img
-                  className="pixelated"
-                  width="80"
-                  height="80"
+                  className="w-20 h-20 pixelated"
                   src={getPokemonStaticImage(evolution.id)}
                   alt={evolution.name}
                   onError={handleImageError}
@@ -173,11 +216,23 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
                 <p>{evolution.name}</p>
               </div>
+
+              {index < evolutionChain.length - 1 && (
+                <>
+                  <div className="my-2 flex lg:hidden text-2xl text-gray-400">
+                    <ArrowBigDown />
+                  </div>
+
+                  <div className="mx-2 hidden lg:flex text-2xl text-gray-400">
+                    <ArrowBigRight />
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </section >
   );
 }
 
