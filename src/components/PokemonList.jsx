@@ -42,7 +42,7 @@ function PokemonList({ pokemonList, loading, searchTerm, onPokemonSelect, select
                 onClick={() => onPokemonSelect(pokemon)}
               >
                 <img
-                  className="pixelated"
+                  className="pixelated transform scale-x-[-1]"
                   width="100"
                   height="100"
                   src={getPokemonStaticImage(pokemon.pokedex_id)}
