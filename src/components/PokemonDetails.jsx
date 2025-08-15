@@ -1,6 +1,7 @@
-import { ArrowBigRight, ArrowBigDown } from "lucide-react";
-import { getPokemonStaticImage, getPokemonAnimatedImage, handleImageError, handleAnimatedImageError } from "../services/pokemonImages.js";
+import { MoveRight, MoveDown } from "lucide-react";
+import { getPokemonStaticImage, getPokemonAnimatedImage, getPokemonArtwork, handleImageError, handleAnimatedImageError } from "../services/pokemonImages.js";
 import { pokemonTypeColors } from "../data/pokemonTypeColors.js";
+import HexagonStats from "./hexagonStats.jsx";
 
 function PokemonDetails({ pokemon, allPokemon }) {
   if (!pokemon) {
@@ -96,10 +97,6 @@ function PokemonDetails({ pokemon, allPokemon }) {
     return suffix ? `${value}${suffix}` : value;
   }
 
-  function getStatValue(stat) {
-    return stat || "Non disponible";
-  }
-
   // Prepare data with fallback values for display.
   const pokemonName = getSafeValue(pokemon.name?.jp);
   const height = getSafeValue(pokemon.height);
@@ -170,7 +167,7 @@ function PokemonDetails({ pokemon, allPokemon }) {
           </div>
         </div>
 
-        <div className="p-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+        <div className="px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
           <h3 className="text-xl font-bold text-slate-600">
             Talents
           </h3>
@@ -181,56 +178,78 @@ function PokemonDetails({ pokemon, allPokemon }) {
 
       {/* Pokemon stats */}
       {pokemon.stats && (
-        <div className="w-full mb-4 px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+        <div className="mb-4 px-8 py-4 bg-white rounded-xl shadow-xl">
           <h3 className="text-xl font-bold text-slate-600">
             Statistiques (Niveau 100)
           </h3>
 
-          <p>PV : {getStatValue(pokemon.stats.hp)}</p>
-          <p>Attaque : {getStatValue(pokemon.stats.atk)}</p>
-          <p>Défense : {getStatValue(pokemon.stats.def)}</p>
-          <p>Attaque Spéciale : {getStatValue(pokemon.stats.spe_atk)}</p>
-          <p>Défense Spéciale : {getStatValue(pokemon.stats.spe_def)}</p>
-          <p>Vitesse : {getStatValue(pokemon.stats.vit)}</p>
+          <HexagonStats stats={pokemon.stats} typeName={pokemon.types[0].name} />
         </div>
       )}
 
       {/* Evolution chain */}
-      <div className="w-full px-8 py-4 flex flex-col justify-start items-start border border-slate-300 rounded-xl bg-white shadow-lg">
+      <div className="w-full mb-4 px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
         <h3 className="text-xl font-bold text-slate-600">
           Évolutions
         </h3>
 
-        <div className="w-full flex flex-col lg:flex-row justify-center items-center">
+        <div className="w-full flex flex-col lg:flex-row lg:flex-wrap justify-center items-center lg:gap-y-4">
           {evolutionChain.map((evolution, index) => (
             <div
-              className="flex flex-col lg:flex-row justify-center items-center"
-              key={`${evolution.id}-${index}`}>
-              <div className="px-4 py-2 flex flex-col justify-center items-center gap-2 rounded-xl bg-slate-200">
+              className="w-full lg:w-auto flex flex-col lg:flex-row justify-center items-center"
+              key={`${evolution.id}-${index}`}
+            >
+              <div className="w-full lg:w-auto px-4 py-4 flex flex-col justify-center items-center gap-4 rounded-xl border border-slate-300 bg-slate-100">
                 <img
-                  className="w-20 h-20 pixelated"
+                  className="w-25 h-25 p-2 rounded-full bg-white shadow-sm transform scale-x-[-1] pixelated"
                   src={getPokemonStaticImage(evolution.id)}
                   alt={evolution.name}
                   onError={handleImageError}
                 />
 
-                <p>{evolution.name}</p>
+                <div className="flex flex-col justify-center items-center">
+                  <p className="text-sm font-light">
+                    #{evolution.id.toString().padStart(3, "0")}
+                  </p>
+
+                  <p className="font-medium">
+                    {evolution.name}
+                  </p>
+                </div>
               </div>
 
               {index < evolutionChain.length - 1 && (
                 <>
-                  <div className="my-2 flex lg:hidden text-2xl text-gray-400">
-                    <ArrowBigDown />
+                  {/* Desktop arrow */}
+                  <div className="mx-4 hidden lg:flex text-2xl text-slate-400">
+                    <MoveRight />
                   </div>
 
-                  <div className="mx-2 hidden lg:flex text-2xl text-gray-400">
-                    <ArrowBigRight />
+                  {/* Mobile arrow */}
+                  <div className="my-2 flex lg:hidden text-2xl text-slate-400">
+                    <MoveDown />
                   </div>
                 </>
               )}
             </div>
           ))}
         </div>
+      </div>
+
+      {/* */}
+      <div className="w-full px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
+        <h3 className="text-xl font-bold text-slate-600">
+          Pokémon TCGP
+        </h3>
+      </div>
+
+      {/* */}
+      <div className="w-full mt-8 flex flex-row justify-center items-center">
+        <img
+          className="h-50"
+          src={getPokemonArtwork(pokemon.pokedex_id)}
+          alt={pokemon.name.fr}
+        />
       </div>
     </section >
   );
