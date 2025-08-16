@@ -77,8 +77,8 @@ function HexagonStats({ stats, typeName }) {
   // Get label position outside the chart.
   function getLabelPoint(index) {
     const angle = (Math.PI / 3) * index - Math.PI / 2;
-    const x = centerX + Math.cos(angle) * (maxRadius + 35);
-    const y = centerY + Math.sin(angle) * (maxRadius + 35);
+    const x = centerX + Math.cos(angle) * (maxRadius + 30);
+    const y = centerY + Math.sin(angle) * (maxRadius + 30);
 
     return { x, y };
   }

@@ -21,7 +21,9 @@ function App() {
         const data = await pokemonApi.getAllPokemon();
         setAllPokemon(data);
 
-        const pikachu = data.filter(pokemon => pokemon.pokedex_id === 25);
+        const pikachu = data.filter(function (pokemon) {
+          return pokemon.pokedex_id === 25;
+        });
 
         setDisplayedPokemon(pikachu);
 
@@ -37,7 +39,10 @@ function App() {
 
   // Reset display to show only Pikachu and clear search.
   function handleReset() {
-    const pikachu = allPokemon.filter(pokemon => pokemon.pokedex_id === 25);
+    const pikachu = allPokemon.filter(function (pokemon) {
+      return pokemon.pokedex_id === 25;
+    });
+
     setDisplayedPokemon(pikachu);
 
     if (pikachu.length > 0) {
@@ -47,6 +52,35 @@ function App() {
     setSearchTerm("");
     setSelectedRegion(null);
     setLoading(false);
+  }
+
+  // Filter by type, clear region/search, keep selectedPokemon unchanged.
+  function handleTypeSelect(typeName) {
+    setLoading(true);
+    setSearchTerm("");
+    setSelectedRegion(null);
+
+    let filtered = [];
+
+    if (Array.isArray(allPokemon)) {
+      filtered = allPokemon.filter(function (p) {
+        if (!Array.isArray(p.types)) {
+          return false;
+        }
+        for (let i = 0; i < p.types.length; i++) {
+          const t = p.types[i];
+          if (t && t.name === typeName) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+
+    setTimeout(function () {
+      setDisplayedPokemon(filtered);
+      setLoading(false);
+    }, 1000);
   }
 
   return (
@@ -76,6 +110,7 @@ function App() {
         <PokemonDetails
           pokemon={selectedPokemon}
           allPokemon={allPokemon}
+          onTypeSelect={handleTypeSelect}
         />
       </main>
 

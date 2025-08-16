@@ -14,9 +14,13 @@ function PokemonList({ pokemonList, loading, searchTerm, onPokemonSelect, select
 
   if (pokemonList.length === 0) {
     if (searchTerm.trim()) {
-      return <p>Aucun Pokémon trouvé.</p>;
+      return (
+        <p className="w-full h-full flex flex-col justify-center items-center">Aucun Pokémon trouvé.</p>
+      );
     }
-    return <p>Choisissez une région.</p>;
+    return (
+      <p className="w-full h-full flex flex-col justify-center items-center">Choisissez une région.</p>
+    );
   }
 
   return (
