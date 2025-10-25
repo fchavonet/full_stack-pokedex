@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  base: "/web-pokedex/",
+  base: "/full_stack-pokedex/",
   plugins: [
     react(),
     tailwindcss(),

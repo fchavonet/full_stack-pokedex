@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState, useEffect } from "react";
 import { pokemonApi } from "./services/pokemonApi.js";
 import Header from "./components/Header";
