@@ -2,7 +2,13 @@
 
 ## Description
 
-This project is a responsive Pokédex web application built using React. It serves as a training exercise to strengthen my understanding of React and API integration. The app is in French and uses two public APIs: [Tyradex](https://tyradex.vercel.app/) for Pokémon data in French and [PokeAPI](https://pokeapi.co/) for high-resolution images.
+This project is a responsive Pokédex web application built using React. It serves as a training exercise to strengthen my understanding of React, component architecture, API integration and asynchronous JavaScript.
+
+The app is in French and uses multiple public APIs:
+
+- [Tyradex](https://tyradex.app/) for French Pokémon data.
+- [PokeAPI](https://pokeapi.co/) for Pokémon sprites and artwork.
+- [TCGdex](https://www.tcgdex.net/) for Pokémon TCG Pocket card data and images.
 
 I built everything from scratch without using pre-made components, to better practice and improve my React skills.
 
@@ -12,12 +18,16 @@ Features include:
 - Pokémon listing per selected region.
 - Clickable Pokémon to view detailed information.
 - Search functionality for quick lookup.
+- Pokémon sprite and artwork display.
+- Pokémon TCG Pocket card display when matching cards are available.
 
 ## Objectives
 
 - Gain practical experience with React and component architecture.
 - Work with asynchronous JavaScript: fetch(), async/await.
-- Manage French-language API data (Tyradex) alongside image retrieval (PokeAPI).
+- Manage French-language API data from Tyradex.
+- Retrieve and display Pokémon images using PokeAPI assets.
+- Integrate Pokémon TCG Pocket card data using TCGdex.
 - Build a responsive, user-friendly interface with reusable components.
 - Encourage clean, maintainable code practices and state handling.
 
