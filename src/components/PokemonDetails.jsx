@@ -2,6 +2,7 @@ import { MoveRight, MoveDown } from "lucide-react";
 import { getPokemonStaticImage, getPokemonAnimatedImage, getPokemonArtwork, handleImageError, handleAnimatedImageError } from "../services/pokemonImages.js";
 import { pokemonTypeColors } from "../data/pokemonTypeColors.js";
 import HexagonStats from "./hexagonStats.jsx";
+import PokemonTCGPocket from "./PokemonTCGPocket.jsx";
 
 function PokemonDetails({ pokemon, allPokemon, onTypeSelect }) {
   if (!pokemon) {
@@ -278,11 +279,7 @@ function PokemonDetails({ pokemon, allPokemon, onTypeSelect }) {
       </div>
 
       {/* */}
-      <div className="w-full px-8 py-4 flex flex-col justify-start items-start gap-4 border border-slate-300 rounded-xl bg-white shadow-lg">
-        <h3 className="text-xl font-bold text-slate-600">
-          Pokémon TCGP
-        </h3>
-      </div>
+      <PokemonTCGPocket pokemon={pokemon} />
 
       {/* */}
       <div className="w-full mt-8 flex flex-row justify-center items-center">

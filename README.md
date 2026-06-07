@@ -111,7 +111,6 @@ You can also test the project online by clicking [here](https://fchavonet.github
 
 ## What's Next?
 
-- Integrate an additional API to display a trading card section related to the selected Pokémon.
 - Split the application into smaller, reusable React components.
 - Refactor and clean the codebase for improved readability and maintainability.
 - Add a dark/light mode toggle for better accessibility.
